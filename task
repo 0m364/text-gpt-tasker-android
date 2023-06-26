@@ -1,0 +1,43 @@
+// eyes//
+1. Set up the HTTP Request:
+
+- Action: Send SMS
+- Number: {desired_phone_number more requires seperate tasks}
+- Message: %SMSRB
+
+2. Set up the HTTP Request:
+
+- Server:port: api.openai.com
+- Path: /v1/chat/completions
+- Attributes: Key=Value
+
+- Key: Content-Type
+  Value: application/json
+
+- Key: Authorization
+  Value: Bearer {your_openai_api_key}
+
+3. Set up the HTTP Request:
+
+- Mime Type: application/json
+- Body: {"model": "gpt-3.5-turbo", "messages": [{"role": "system", "content": "You are (insert your own role, and description ."}, {"role": "user", "content": "%SMSRB"}]}
+
+4. Store the response in a variable:
+
+- Variable Set: %response_data
+- To: %HTTPD
+
+5. Parse the response to extract the reply:
+
+- Variable Split: %response_data
+- Splitter: "choices":[{"content":"
+
+6. Send the reply as an SMS:
+
+- Action: Send SMS
+- Number: {desired_phone_number}
+- Message: %response_data2
+
+Remember to replace {desired_phone_number} with the phone number you want to send the replies to, and {your_openai_api_key} with your actual OpenAI API key.
+
+This task will trigger whenever a new text message is received. It will extract the received message (%SMSRB), send it to the ChatGPT API, and then send the generated response back as a reply via SMS.
